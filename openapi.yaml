@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Сервис блокировки платежей
+  version: 1.0.0
+paths:
+  /clients/block/{client_id}:
+    post:
+      summary: Блокировка клиента
+      description: Метод предназначен для блокировки платежей пользователя.
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешная блокировка клиента
+        '404':
+          description: Клиент не найден
+
+  /clients/unblock/{client_id}:
+    post:
+      summary: Разблокировка клиента
+      description: Метод предназначен для разблокировки платежей пользователя.
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешная разблокировка клиента
+        '404':
+          description: Клиент не найден
+
+  /clients/check_blocking/{client_id}:
+    get:
+      summary: Получение статуса блокировки
+      description: Метод предназначен для получения статуса блокировки пользователя.
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ со статусом блокировки
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isblocked:
+                    type: boolean
+        '404':
+          description: Клиент не найден
+
+  /clients/check_reason_blocking/{client_id}:
+    get:
+      summary: Получение причины блокировки
+      description: Метод предназначен для получения причины блокировки пользователя.
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ с причиной блокировки
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                    enum: [fraud, incorrect_details]
+        '404':
+          description: Клиент не найден
